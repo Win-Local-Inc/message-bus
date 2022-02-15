@@ -1,0 +1,43 @@
+{
+    "name": "win-local-inc/message-bus",
+    "description": "A package for message bus.",
+    "keywords": [
+        "message-bus"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Piotr Kiszka",
+            "email": "piotrek@lifeinmobile.com",
+            "role": "Programmer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "WinLocal\\MessageBus\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "WinLocal\\MessageBus\\MessageBusServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "prefer-stable": true,
+    "require": {
+        "php": "^7.4||^8.0",
+        "aws/aws-php-sns-message-validator": "^1.6",
+        "aws/aws-sdk-php-laravel": "^3.6",      
+        "laravel/laravel": "^7.0|^8.0|^9.0"
+    }
+}
