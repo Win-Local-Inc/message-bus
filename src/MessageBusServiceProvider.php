@@ -9,8 +9,6 @@ class MessageBusServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->configure();
-
-        $this->loadRoutesFrom(__DIR__.'/Routes/api.php');
     }
 
     protected function configure()

@@ -10,7 +10,7 @@ AWS_REGION=
 AWS_SNS_TOPIC=
 ```
 
-- iplement notification method:
+- implement notification method:
 
 ```php
 use WinLocal\MessageBus\Controllers\SnsController;
@@ -24,6 +24,12 @@ class SnsImlementation extends SnsController
         // $message['Message'] raw data, if json need to be decoded     
     }
 }
+```
+
+- add controller to routes/api.php at root position
+
+```php
+Route::any(config('messagebus.path'), [SnsImlementation::class, 'handle']);
 ```
 
 - push event:
