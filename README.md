@@ -4,13 +4,13 @@
 
 ### Installation
 
-- update providers array in config/app.php with 
+- update providers array in `config/app.php` with 
 
 ```php
 Joblocal\LaravelSqsSnsSubscriptionQueue\SqsSnsServiceProvider::class,
 ```
 
-- update connections array in config/queue.php with 
+- update connections array in `config/queue.php` with 
 
 ```php
 'sqs-sns' => [
