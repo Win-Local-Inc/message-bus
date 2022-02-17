@@ -10,23 +10,6 @@
 Joblocal\LaravelSqsSnsSubscriptionQueue\SqsSnsServiceProvider::class,
 ```
 
-- implement SqsGetJob
-
-```php
-namespace App\Jobs;
-
-class SqsGetJob extends \WinLocal\MessageBus\Jobs\SqsGetJob
-{
-    public function handle()
-    {
-        print_r([
-            'subject' => $this->subject, // string
-            'payload' => $this->payload // array
-        ]);
-    }
-}
-```
-
 - update connections array in config/queue.php with 
 
 ```php
@@ -53,8 +36,25 @@ class SqsGetJob extends \WinLocal\MessageBus\Jobs\SqsGetJob
 AWS_SQS_ACCESS_KEY_ID=
 AWS_SQS_SECRET_ACCESS_KEY=
 AWS_SQS_REGION=us-east-2
-AWS_SQS_QUEUE=https://sqs.us-east-2.amazonaws.com/543083718057/[ServiceNameQueue]
-AWS_SNS_TOPIC=arn:aws:sns:us-east-2:543083718057:GeneralTopic
+AWS_SQS_QUEUE=
+AWS_SNS_TOPIC=
+```
+
+- implement notification entry point, namespace name and class name must match `config/queue.php`, default `App\\Jobs\\SqsGetJob`:
+
+```php
+namespace App\Jobs;
+
+class SqsGetJob extends \WinLocal\MessageBus\Jobs\SqsGetJob
+{
+    public function handle()
+    {
+        print_r([
+            'subject' => $this->subject, // string
+            'payload' => $this->payload // array
+        ]);
+    }
+}
 ```
 
 - push notification:
