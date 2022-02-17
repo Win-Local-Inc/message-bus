@@ -1,39 +1,68 @@
 # Message Bus Package
 
-- add envs :
+- All honor go to [joblocal/laravel-sqs-sns-subscription-queue](https://github.com/joblocal/laravel-sqs-sns-subscription-queue)
 
-```env
-WINLOCAL_MESSAGEBUS_PATH=aws-sns-webhook
-AWS_ACCESS_KEY_ID=
-AWS_SECRET_ACCESS_KEY=
-AWS_REGION=
-AWS_SNS_TOPIC=
-```
+### Installation
 
-- implement notification method:
+- update providers array in config/app.php with 
 
 ```php
-use WinLocal\MessageBus\Controllers\SnsController;
+Joblocal\LaravelSqsSnsSubscriptionQueue\SqsSnsServiceProvider::class,
+```
 
-class SnsImlementation extends SnsController
+- implement SqsGetJob
+
+```php
+namespace App\Jobs;
+
+class SqsGetJob extends \WinLocal\MessageBus\Jobs\SqsGetJob
 {
-    protected function notification(array $message)
+    public function handle()
     {
-        // $message['MessageId']  store it to verify that this event was or not handled
-        // $message['Subject'] we can use Subject as predefined Event names: User, Subscription ect...
-        // $message['Message'] raw data, if json need to be decoded     
+        print_r([
+            'subject' => $this->subject, // string
+            'payload' => $this->payload // array
+        ]);
     }
 }
 ```
 
-- add controller to routes/api.php at root position
+- update connections array in config/queue.php with 
 
 ```php
-Route::any(config('messagebus.path'), [SnsImlementation::class, 'handle']);
+'sqs-sns' => [
+    'driver' => 'sqs-sns',
+    'key'    => env('AWS_SQS_ACCESS_KEY_ID'),
+    'secret' => env('AWS_SQS_SECRET_ACCESS_KEY'),
+    'queue'  => env('AWS_SQS_QUEUE', 'your-queue-url'),
+    'region' => env('AWS_SQS_REGION', 'us-east-2'),
+    'topic' => env('AWS_SNS_TOPIC'),
+    'routes' => [
+        env('AWS_SNS_TOPIC') => 'App\\Jobs\\SqsGetJob',
+    ],
+    'version' => 'latest',
+    'ua_append' => [
+        'L5MOD/' . Aws\Laravel\AwsServiceProvider::VERSION,
+    ],
+    ],
 ```
 
-- push event:
+- add envs :
+
+```env
+AWS_SQS_ACCESS_KEY_ID=
+AWS_SQS_SECRET_ACCESS_KEY=
+AWS_SQS_REGION=us-east-2
+AWS_SQS_QUEUE=https://sqs.us-east-2.amazonaws.com/543083718057/[ServiceNameQueue]
+AWS_SNS_TOPIC=arn:aws:sns:us-east-2:543083718057:GeneralTopic
+```
+
+- push notification:
 
 ```php
-WinLocal\MessageBus\Jobs\MessageBusJob::dispatch(string $subject, array $message);
+WinLocal\MessageBus\Jobs\SnsSendJob::dispatch(string $subject, array $message);
 ```
+
+- each service needs to run supervisor
+
+`php artisan queue:work sqs-sns --max-jobs=100 --tries=3 --max-time=3600`

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "83481ef6fc9026616f0d51743e5d64fb",
+    "content-hash": "aca8ea330a93a142d266f8b2836b8776",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -57,75 +57,17 @@
             "time": "2021-09-03T22:57:30+00:00"
         },
         {
-            "name": "aws/aws-php-sns-message-validator",
-            "version": "1.6.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/aws/aws-php-sns-message-validator.git",
-                "reference": "ba6810807ac8936317021ccc14cdb1297d525ae1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-php-sns-message-validator/zipball/ba6810807ac8936317021ccc14cdb1297d525ae1",
-                "reference": "ba6810807ac8936317021ccc14cdb1297d525ae1",
-                "shasum": ""
-            },
-            "require": {
-                "ext-openssl": "*",
-                "php": ">=5.4",
-                "psr/http-message": "^1.0"
-            },
-            "require-dev": {
-                "guzzlehttp/psr7": "^1.4",
-                "phpunit/phpunit": "^4.0",
-                "squizlabs/php_codesniffer": "^2.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Aws\\Sns\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Amazon Web Services",
-                    "homepage": "http://aws.amazon.com"
-                }
-            ],
-            "description": "Amazon SNS message validation for PHP",
-            "homepage": "http://aws.amazon.com/sdkforphp",
-            "keywords": [
-                "SNS",
-                "amazon",
-                "aws",
-                "cloud",
-                "message",
-                "sdk",
-                "webhooks"
-            ],
-            "support": {
-                "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
-                "issues": "https://github.com/aws/aws-sns-message-validator/issues",
-                "source": "https://github.com/aws/aws-php-sns-message-validator/tree/master"
-            },
-            "time": "2019-11-08T16:44:11+00:00"
-        },
-        {
             "name": "aws/aws-sdk-php",
-            "version": "3.209.24",
+            "version": "3.209.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "ce68bfc141863a25f4b870f10cfa996312fb1813"
+                "reference": "9f1ae9b3efd1261b7205d79484fc3a3802328667"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/ce68bfc141863a25f4b870f10cfa996312fb1813",
-                "reference": "ce68bfc141863a25f4b870f10cfa996312fb1813",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/9f1ae9b3efd1261b7205d79484fc3a3802328667",
+                "reference": "9f1ae9b3efd1261b7205d79484fc3a3802328667",
                 "shasum": ""
             },
             "require": {
@@ -201,9 +143,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.209.24"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.209.25"
             },
-            "time": "2022-02-14T19:15:07+00:00"
+            "time": "2022-02-16T19:18:09+00:00"
         },
         {
             "name": "aws/aws-sdk-php-laravel",
@@ -1096,17 +1038,85 @@
             "time": "2021-10-06T17:43:30+00:00"
         },
         {
-            "name": "laravel/framework",
-            "version": "v8.83.0",
+            "name": "joblocal/laravel-sqs-sns-subscription-queue",
+            "version": "v2.6.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/laravel/framework.git",
-                "reference": "29bc8779103909ebc428478b339ee6fa8703e193"
+                "url": "https://github.com/joblocal/laravel-sqs-sns-subscription-queue.git",
+                "reference": "ee3fa1a276265a343647341071912c5316dd224f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/29bc8779103909ebc428478b339ee6fa8703e193",
-                "reference": "29bc8779103909ebc428478b339ee6fa8703e193",
+                "url": "https://api.github.com/repos/joblocal/laravel-sqs-sns-subscription-queue/zipball/ee3fa1a276265a343647341071912c5316dd224f",
+                "reference": "ee3fa1a276265a343647341071912c5316dd224f",
+                "shasum": ""
+            },
+            "require": {
+                "aws/aws-sdk-php": "^3.62",
+                "illuminate/queue": "^5.6|^6.0|^7.0|^8.0",
+                "illuminate/support": "^5.6|^6.0|^7.0|^8.0",
+                "php": ">=7.1.3"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.8|^4.0|^5.0|^6.0",
+                "phpunit/phpunit": "^8",
+                "squizlabs/php_codesniffer": "^3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Joblocal\\LaravelSqsSnsSubscriptionQueue\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Johannes Hofmann",
+                    "email": "johannes.hofmann@joblocal.de",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Julius Liebert",
+                    "email": "julius.liebert@joblocal.de",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Bastian Hofmann",
+                    "email": "bastian.hofmann@joblocal.de",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A simple Laravel service provider which adds a new queue connector to handle SNS subscription queues.",
+            "keywords": [
+                "SNS",
+                "aws",
+                "laravel",
+                "lumen",
+                "queue",
+                "sns subscription",
+                "sqs"
+            ],
+            "support": {
+                "issues": "https://github.com/joblocal/laravel-sqs-sns-subscription-queue/issues",
+                "source": "https://github.com/joblocal/laravel-sqs-sns-subscription-queue/tree/v2.6.3"
+            },
+            "time": "2021-11-29T11:36:19+00:00"
+        },
+        {
+            "name": "laravel/framework",
+            "version": "v8.83.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/framework.git",
+                "reference": "bddba117f8bce2f3c9875ca1ca375a96350d0f4d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/bddba117f8bce2f3c9875ca1ca375a96350d0f4d",
+                "reference": "bddba117f8bce2f3c9875ca1ca375a96350d0f4d",
                 "shasum": ""
             },
             "require": {
@@ -1266,20 +1276,20 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2022-02-08T15:44:51+00:00"
+            "time": "2022-02-15T15:05:20+00:00"
         },
         {
             "name": "laravel/serializable-closure",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/serializable-closure.git",
-                "reference": "65c9faf50d567b65d81764a44526545689e3fe63"
+                "reference": "9e4b005daa20b0c161f3845040046dc9ddc1d74e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/serializable-closure/zipball/65c9faf50d567b65d81764a44526545689e3fe63",
-                "reference": "65c9faf50d567b65d81764a44526545689e3fe63",
+                "url": "https://api.github.com/repos/laravel/serializable-closure/zipball/9e4b005daa20b0c161f3845040046dc9ddc1d74e",
+                "reference": "9e4b005daa20b0c161f3845040046dc9ddc1d74e",
                 "shasum": ""
             },
             "require": {
@@ -1325,7 +1335,7 @@
                 "issues": "https://github.com/laravel/serializable-closure/issues",
                 "source": "https://github.com/laravel/serializable-closure"
             },
-            "time": "2022-02-01T16:29:39+00:00"
+            "time": "2022-02-11T19:23:53+00:00"
         },
         {
             "name": "league/commonmark",
