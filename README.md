@@ -7,7 +7,7 @@
 - update providers array in `config/app.php` with 
 
 ```php
-Joblocal\LaravelSqsSnsSubscriptionQueue\SqsSnsServiceProvider::class,
+WinLocal\MessageBus\MessageBusServiceProvider::class,
 ```
 
 - update connections array in `config/queue.php` with 
