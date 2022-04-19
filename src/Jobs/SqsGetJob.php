@@ -2,12 +2,12 @@
 
 namespace WinLocal\MessageBus\Jobs;
 
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Nette\NotImplementedException;
 
 class SqsGetJob implements ShouldQueue
 {
@@ -33,6 +33,6 @@ class SqsGetJob implements ShouldQueue
             'payload' => $this->payload
         ]);
 
-        throw new NotImplementedException('SqsGetJob Not Implemented');
+        throw new Exception('SqsGetJob Not Implemented');
     }
 }
