@@ -2,14 +2,14 @@
 
 namespace WinLocal\MessageBus\Providers;
 
-use ReflectionClass;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\File;
-use WinLocal\MessageBus\Enums\Subject;
+use ReflectionClass;
 use Symfony\Component\Finder\SplFileInfo;
 use WinLocal\MessageBus\Attributes\HandleSubjects;
 use WinLocal\MessageBus\Contracts\HandlerResolverInterface;
+use WinLocal\MessageBus\Enums\Subject;
 
 class HandlerResolver implements HandlerResolverInterface
 {
@@ -21,7 +21,7 @@ class HandlerResolver implements HandlerResolverInterface
                     ->filter(fn (SplFileInfo $file) => $file->getExtension() === 'php')
                     ->map(function (SplFileInfo $file) {
                         return ucfirst(
-                            str_replace([App::basePath().DIRECTORY_SEPARATOR, '/'], ['','\\'], $file->getPath())
+                            str_replace([App::basePath().DIRECTORY_SEPARATOR, '/'], ['', '\\'], $file->getPath())
                         ).'\\'.$file->getFilenameWithoutExtension();
                     })
                     ->filter(function (string $absoluteClassName) use (&$subject) {

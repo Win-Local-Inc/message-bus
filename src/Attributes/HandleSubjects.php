@@ -2,8 +2,8 @@
 
 namespace WinLocal\MessageBus\Attributes;
 
-use WinLocal\MessageBus\Enums\Subject;
 use Attribute;
+use WinLocal\MessageBus\Enums\Subject;
 
 #[Attribute(Attribute::TARGET_CLASS)]
 class HandleSubjects

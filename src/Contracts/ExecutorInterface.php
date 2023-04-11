@@ -2,7 +2,9 @@
 
 namespace WinLocal\MessageBus\Contracts;
 
+use WinLocal\MessageBus\Enums\Subject;
+
 interface ExecutorInterface
 {
-    public function execute(string $subject, array $payload): void;
+    public function execute(Subject $subject, array $payload): void;
 }

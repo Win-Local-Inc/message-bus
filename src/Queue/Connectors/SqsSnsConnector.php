@@ -5,7 +5,6 @@ namespace WinLocal\MessageBus\Queue\Connectors;
 use Aws\Sqs\SqsClient;
 use Illuminate\Queue\Connectors\SqsConnector;
 use Illuminate\Support\Arr;
-
 use WinLocal\MessageBus\Queue\SqsSnsQueue;
 
 class SqsSnsConnector extends SqsConnector
@@ -13,7 +12,6 @@ class SqsSnsConnector extends SqsConnector
     /**
      * Establish a queue connection.
      *
-     * @param array $config
      * @return \Illuminate\Contracts\Queue\Queue
      */
     public function connect(array $config)

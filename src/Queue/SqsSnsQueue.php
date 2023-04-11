@@ -18,10 +18,9 @@ class SqsSnsQueue extends SqsQueue
     /**
      * Create a new Amazon SQS SNS subscription queue instance
      *
-     * @param \Aws\Sqs\SqsClient $sqs
-     * @param string $default
-     * @param string $prefix
-     * @param array $routes
+     * @param  string  $default
+     * @param  string  $prefix
+     * @param  array  $routes
      */
     public function __construct(SqsClient $sqs, $default, $prefix = '', $routes = [])
     {
@@ -33,7 +32,7 @@ class SqsSnsQueue extends SqsQueue
     /**
      * Pop the next job off of the queue.
      *
-     * @param string $queue
+     * @param  string  $queue
      * @return \WinLocal\MessageBus\Queue\Jobs\SqsSnsJob
      */
     public function pop($queue = null)
@@ -59,7 +58,7 @@ class SqsSnsQueue extends SqsQueue
                 // remove unwanted messages from topics with multiple messages
                 $this->sqs->deleteMessage([
                     'QueueUrl' => $queue, // REQUIRED
-                    'ReceiptHandle' => $response['Messages'][0]['ReceiptHandle'] // REQUIRED
+                    'ReceiptHandle' => $response['Messages'][0]['ReceiptHandle'], // REQUIRED
                 ]);
             }
         }
@@ -70,7 +69,6 @@ class SqsSnsQueue extends SqsQueue
      * This skips creating a job for messages from
      * topics that publish multiple different messages.
      *
-     * @param array $message
      * @return bool
      */
     protected function routeExists(array $message)
@@ -92,7 +90,6 @@ class SqsSnsQueue extends SqsQueue
      * Check if the job class
      * you're trying to trigger exists.
      *
-     * @param array $message
      * @return bool
      */
     protected function classExists(array $message)

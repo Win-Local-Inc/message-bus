@@ -20,7 +20,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "WinLocal\\MessageBus\\Tests\\": "tests/"
         }
     },
     "extra": {
@@ -33,10 +33,20 @@
     "config": {
         "sort-packages": true
     },
+    "scripts": {
+        "post-autoload-dump": [
+            "@php vendor/bin/testbench package:discover --ansi"
+        ]
+    },
     "prefer-stable": true,
     "require": {
-        "php": "^7.1|^8.0",
+        "php": "^8.2",
         "aws/aws-sdk-php-laravel": "^3.6",
-        "laravel/framework": "^v7.0.0|^v8.0.0|^v9.0.0|^v10.0.0"
+        "laravel/framework": "^v10.0.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.6",
+        "nunomaduro/collision": "^7.4",
+        "orchestra/testbench": "^8.3"
     }
 }

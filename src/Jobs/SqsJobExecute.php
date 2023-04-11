@@ -4,11 +4,12 @@ namespace WinLocal\MessageBus\Jobs;
 
 use Exception;
 use Illuminate\Bus\Queueable;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
+use WinLocal\MessageBus\Enums\Subject;
 
 class SqsJobExecute implements ShouldQueue
 {
@@ -19,7 +20,7 @@ class SqsJobExecute implements ShouldQueue
 
     public function __construct(
         protected string $class,
-        protected string $subject,
+        protected Subject $subject,
         protected array $payload
     ) {
     }

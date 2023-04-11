@@ -4,11 +4,11 @@ namespace WinLocal\MessageBus;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
-use WinLocal\MessageBus\Providers\MessageClient;
-use WinLocal\MessageBus\Providers\HandlerResolver;
-use WinLocal\MessageBus\Contracts\MessageClientInterface;
-use WinLocal\MessageBus\Queue\Connectors\SqsSnsConnector;
 use WinLocal\MessageBus\Contracts\HandlerResolverInterface;
+use WinLocal\MessageBus\Contracts\MessageClientInterface;
+use WinLocal\MessageBus\Providers\HandlerResolver;
+use WinLocal\MessageBus\Providers\MessageClient;
+use WinLocal\MessageBus\Queue\Connectors\SqsSnsConnector;
 
 class MessageBusServiceProvider extends ServiceProvider
 {
@@ -51,7 +51,7 @@ class MessageBusServiceProvider extends ServiceProvider
                 'ua_append' => [
                     'L5MOD/'.\Aws\Laravel\AwsServiceProvider::VERSION,
                 ],
-            ], config('queue.connections.sqs-sns', []))
+            ], config('queue.connections.sqs-sns', [])),
         ]);
 
         $this->mergeConfigFrom(__DIR__.'/../config/messagebus.php', 'messagebus');

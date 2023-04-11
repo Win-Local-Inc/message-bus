@@ -3,21 +3,17 @@
 namespace WinLocal\MessageBus\Queue\Jobs;
 
 use Aws\Sqs\SqsClient;
-use Illuminate\Queue\Jobs\SqsJob;
 use Illuminate\Container\Container;
 use Illuminate\Queue\CallQueuedHandler;
+use Illuminate\Queue\Jobs\SqsJob;
 
 class SqsSnsJob extends SqsJob
 {
     /**
      * Create a new job instance.
      *
-     * @param \Illuminate\Container\Container $container
-     * @param \Aws\Sqs\SqsClient $sqs
-     * @param string $queue
-     * @param array $job
-     * @param string $connectionName
-     * @param array $routes
+     * @param  string  $queue
+     * @param  string  $connectionName
      * @return void
      */
     public function __construct(
@@ -36,8 +32,6 @@ class SqsSnsJob extends SqsJob
     /**
      * Resolves SNS queue messages
      *
-     * @param array $job
-     * @param array $routes
      * @return array
      */
     protected function resolveSnsSubscription(array $job, array $routes)
@@ -70,7 +64,7 @@ class SqsSnsJob extends SqsJob
             $job['Body'] = json_encode([
                 'uuid' => $body['MessageId'],
                 'displayName' => $commandName,
-                'job' => CallQueuedHandler::class . '@call',
+                'job' => CallQueuedHandler::class.'@call',
                 'data' => compact('commandName', 'command'),
             ]);
         }
@@ -81,8 +75,8 @@ class SqsSnsJob extends SqsJob
     /**
      * Make the serialized command.
      *
-     * @param string $commandName
-     * @param array  $body
+     * @param  string  $commandName
+     * @param  array  $body
      * @return string
      */
     protected function makeCommand($commandName, $body)
@@ -91,15 +85,13 @@ class SqsSnsJob extends SqsJob
 
         $data = [
             'subject' => (isset($body['Subject'])) ? $body['Subject'] : '',
-            'payload' => $payload
+            'payload' => $payload,
         ];
 
         $instance = $this->container->make($commandName, $data);
 
         return serialize($instance);
     }
-
-
 
     /**
      * Get the underlying raw SQS job.
