@@ -24,3 +24,7 @@ WinLocal\MessageBus\Jobs\SnsSendJob::dispatch(string $subject, array $message);
 - each service needs to run supervisor
 
 `php artisan queue:work sqs-sns --max-jobs=100 --tries=3 --max-time=3600`
+
+- to run tests on package
+
+`vendor/bin/testbench package:test --configuration=tests/phpunit.xml`

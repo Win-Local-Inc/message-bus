@@ -7,12 +7,12 @@ use WinLocal\MessageBus\Contracts\ExecutorInterface;
 use WinLocal\MessageBus\Enums\Subject;
 use WinLocal\MessageBus\Jobs\SnsSendJob;
 
-#[HandleSubjects(Subject::AdvertCreated, Subject::AdvertUpdated)]
-class AdvertCreated implements ExecutorInterface
+#[HandleSubjects(Subject::AudienceCreated)]
+class AudienceCreated implements ExecutorInterface
 {
     public function execute(Subject $subject, array $payload): void
     {
-        SnsSendJob::dispatch(Subject::AdvertCreated, [
+        SnsSendJob::dispatch(Subject::AudienceCreated, [
             'context' => $payload['context'],
             'context_id' => $payload['context_id'],
             'user_id' => $payload['user_id'],
