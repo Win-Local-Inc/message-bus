@@ -9,28 +9,31 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use WinLocal\MessageBus\Contracts\MessageClientInterface;
 
-class SnsSendJob implements ShouldQueue
+class SqsJobExecute implements ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;
     use Queueable;
     use SerializesModels;
 
-    public function __construct(protected string $subject, protected array $message)
-    {
+    public function __construct(
+        protected string $class,
+        protected string $subject,
+        protected array $payload
+    ) {
     }
 
-    public function handle(MessageClientInterface $messageClient)
+    public function handle()
     {
         try {
-            $messageClient->publish($this->subject, $this->message);
+            $instance = resolve($this->class);
+            $instance->execute($this->subject, $this->payload);
         } catch (Exception $exception) {
-            Log::error('SnsSendJob '.$exception->getMessage(), [
+            Log::error('SqsJobExecute '.$exception->getMessage(), [
                 'exception' => $exception,
                 'subject' => $this->subject,
-                'message' => $this->message,
+                'message' => $this->payload,
             ]);
         }
     }

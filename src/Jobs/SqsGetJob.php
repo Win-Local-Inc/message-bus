@@ -2,37 +2,52 @@
 
 namespace WinLocal\MessageBus\Jobs;
 
-use Exception;
+use ReflectionClass;
 use Illuminate\Bus\Queueable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Queue\SerializesModels;
+use WinLocal\MessageBus\Enums\Subject;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use WinLocal\MessageBus\Contracts\ExecutorInterface;
+use WinLocal\MessageBus\Contracts\HandlerResolverInterface;
+use WinLocal\MessageBus\Exceptions\SqsJobInterfaceNotImplementedException;
 
 class SqsGetJob implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
+    use Dispatchable;
 
-    protected string $subject;
-    protected array $payload;
-
-    /**
-     * @param string  $subject   SNS Subject
-     * @param array   $payload   JSON decoded 'Message'
-     */
-    public function __construct(string $subject, array $payload)
+    public function __construct(protected string $subject, protected array $payload)
     {
-        $this->subject  = $subject;
-        $this->payload  = $payload;
     }
 
-    public function handle()
+    public function handle(HandlerResolverInterface $handler)
     {
-        Log::info('SqsGetJob', [
-            'subject' => $this->subject,
-            'payload' => $this->payload
-        ]);
+        if(!$this->subjectCanBeHandled($this->subject)) {
+            return Log::error('SqsGetJob subject not in enums : '. $this->subject, ['payload' => $this->payload]);
+        }
 
-        throw new Exception('SqsGetJob Not Implemented');
+        $classes = $handler->getHandlersBySubject(Subject::from($this->subject), config('messagebus.handlers'));
+
+        foreach($classes as $class) {
+            $interfaces = (new ReflectionClass($class))->getInterfaces();
+            if(array_key_exists(Dispatchable::class, $interfaces)) {
+                $class::dispatch($this->subject, $this->payload);
+            } elseif(array_key_exists(ExecutorInterface::class, $interfaces)) {
+                SqsJobExecute::dispatch($class, $this->subject, $this->payload);
+            } else {
+                throw new SqsJobInterfaceNotImplementedException($this->subject);
+            }
+        }
+    }
+
+    protected function subjectCanBeHandled(string $subject): bool
+    {
+        return collect(Subject::cases())
+            ->contains(fn ($instance) => $instance->value === $subject);
     }
 }
