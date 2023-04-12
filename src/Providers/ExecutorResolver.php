@@ -8,14 +8,14 @@ use Illuminate\Support\Facades\File;
 use ReflectionClass;
 use Symfony\Component\Finder\SplFileInfo;
 use WinLocal\MessageBus\Attributes\HandleSubjects;
-use WinLocal\MessageBus\Contracts\HandlerResolverInterface;
+use WinLocal\MessageBus\Contracts\ExecutorResolverInterface;
 use WinLocal\MessageBus\Enums\Subject;
 
-class HandlerResolver implements HandlerResolverInterface
+class ExecutorResolver implements ExecutorResolverInterface
 {
     protected ?Subject $subject = null;
 
-    public function getHandlersBySubject(Subject $subject, array $paths): array
+    public function getExecutorsBySubject(Subject $subject, array $paths): array
     {
         $this->subject = $subject;
 

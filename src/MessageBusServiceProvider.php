@@ -4,9 +4,9 @@ namespace WinLocal\MessageBus;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
-use WinLocal\MessageBus\Contracts\HandlerResolverInterface;
+use WinLocal\MessageBus\Contracts\ExecutorResolverInterface;
 use WinLocal\MessageBus\Contracts\MessageClientInterface;
-use WinLocal\MessageBus\Providers\HandlerResolver;
+use WinLocal\MessageBus\Providers\ExecutorResolver;
 use WinLocal\MessageBus\Providers\MessageClient;
 use WinLocal\MessageBus\Queue\Connectors\SqsSnsConnector;
 
@@ -29,8 +29,8 @@ class MessageBusServiceProvider extends ServiceProvider
             return new MessageClient($config);
         });
 
-        $this->app->singleton(HandlerResolverInterface::class, function () {
-            return new HandlerResolver();
+        $this->app->singleton(ExecutorResolverInterface::class, function () {
+            return new ExecutorResolver();
         });
     }
 

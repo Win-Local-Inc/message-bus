@@ -7,7 +7,8 @@
 - add envs :
 
 ```env
-AWS_SQS_HANDLER_PATHS= app path to handlers separeted by , resolved by App::path($path)
+AWS_SQS_HANDLER_PATHS= app paths to handlers separeted by "," resolved by App::path($path)
+AWS_SQS_VALIDATOR_PATHS= app paths to validators separeted by "," resolved by App::path($path)
 AWS_SQS_ACCESS_KEY_ID=
 AWS_SQS_SECRET_ACCESS_KEY=
 AWS_SQS_REGION=us-east-2

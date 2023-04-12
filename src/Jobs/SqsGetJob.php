@@ -9,8 +9,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use ReflectionClass;
+use WinLocal\MessageBus\Contracts\AbstractExecutorValidator;
 use WinLocal\MessageBus\Contracts\ExecutorInterface;
-use WinLocal\MessageBus\Contracts\HandlerResolverInterface;
+use WinLocal\MessageBus\Contracts\ExecutorResolverInterface;
 use WinLocal\MessageBus\Enums\Subject;
 use WinLocal\MessageBus\Exceptions\SqsJobInterfaceNotImplementedException;
 
@@ -25,19 +26,39 @@ class SqsGetJob implements ShouldQueue
     {
     }
 
-    public function handle(HandlerResolverInterface $handler)
+    public function handle(ExecutorResolverInterface $resolver)
     {
         if (! $this->subjectCanBeHandled($this->subject)) {
             return Log::error('SqsGetJob subject not in enums : '.$this->subject, ['payload' => $this->payload]);
         }
 
         $subject = Subject::from($this->subject);
+        $this->validators($resolver, $subject);
+        $this->handlers($resolver, $subject);
+    }
 
-        $classes = $handler->getHandlersBySubject($subject, config('messagebus.handlers'));
+    protected function validators(ExecutorResolverInterface $resolver, Subject $subject)
+    {
+        $classes = $resolver->getExecutorsBySubject($subject, config('messagebus.validators'));
 
         foreach ($classes as $class) {
-            $interfaces = (new ReflectionClass($class))->getInterfaces();
-            if (array_key_exists(Dispatchable::class, $interfaces)) {
+            $parent = (new ReflectionClass($class))->getParentClass();
+            if ($parent->getName() === AbstractExecutorValidator::class) {
+                $instance = resolve($class);
+                $instance->execute($subject, $this->payload);
+            }
+        }
+    }
+
+    protected function handlers(ExecutorResolverInterface $resolver, Subject $subject)
+    {
+        $classes = $resolver->getExecutorsBySubject($subject, config('messagebus.handlers'));
+
+        foreach ($classes as $class) {
+            $reflector = new ReflectionClass($class);
+            $interfaces = $reflector->getInterfaces();
+            $traits = $reflector->getTraits();
+            if (array_key_exists(ShouldQueue::class, $interfaces) && array_key_exists(Dispatchable::class, $traits)) {
                 $class::dispatch($subject, $this->payload);
             } elseif (array_key_exists(ExecutorInterface::class, $interfaces)) {
                 SqsJobExecute::dispatch($class, $subject, $this->payload);

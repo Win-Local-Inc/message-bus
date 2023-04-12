@@ -7,18 +7,21 @@ use Aws\Middleware;
 use Aws\MockHandler;
 use Aws\Result;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Finder\SplFileInfo;
-use WinLocal\MessageBus\Contracts\HandlerResolverInterface;
+use WinLocal\MessageBus\Contracts\ExecutorResolverInterface;
 use WinLocal\MessageBus\Contracts\MessageClientInterface;
 use WinLocal\MessageBus\Enums\Subject;
+use WinLocal\MessageBus\Exceptions\ExecutorValidatorException;
+use WinLocal\MessageBus\Exceptions\SqsJobInterfaceNotImplementedException;
 use WinLocal\MessageBus\Jobs\SqsGetJob;
-use WinLocal\MessageBus\Providers\HandlerResolver;
+use WinLocal\MessageBus\Providers\ExecutorResolver;
 use WinLocal\MessageBus\Tests\TestCase;
 
 class WinLocalEventBusTest extends TestCase
 {
-    public function testAdvertCreateEventBusSuccess()
+    public function testAdvertCreateHandlerSuccess()
     {
         $this->setUpHandlerResolver();
         $history = $this->mockAws(4);
@@ -44,7 +47,7 @@ class WinLocalEventBusTest extends TestCase
         $this->assertEquals($message->data->workspace_id, $workspaceId);
     }
 
-    public function testAudienceCreateEventBusSuccess()
+    public function testAudienceCreateHandlerSuccess()
     {
         $this->setUpHandlerResolver();
         $history = $this->mockAws(4);
@@ -70,9 +73,47 @@ class WinLocalEventBusTest extends TestCase
         $this->assertEquals($message->data->workspace_id, $workspaceId);
     }
 
+    public function testAdvertCreateValidationError()
+    {
+        $this->expectException(ExecutorValidatorException::class);
+        $this->setUpHandlerResolver();
+        $userId = Uuid::uuid4()->toString();
+        $workspaceId = Uuid::uuid4()->toString();
+        SqsGetJob::dispatch(
+            Subject::AdvertCreated->value,
+            [
+                'context_id' => $userId,
+                'context' => ['type' => 'Advert'],
+                'user_id' => $userId,
+                'workspace_id' => $workspaceId,
+                'data' => [
+                ],
+            ]
+        );
+    }
+
+    public function testInterfaceNotImplementedError()
+    {
+        $this->expectException(SqsJobInterfaceNotImplementedException::class);
+        $this->setUpHandlerResolver();
+        $userId = Uuid::uuid4()->toString();
+        $workspaceId = Uuid::uuid4()->toString();
+        SqsGetJob::dispatch(
+            Subject::AudienceDeleted->value,
+            [
+                'context_id' => $userId,
+                'context' => ['type' => 'Advert'],
+                'user_id' => $userId,
+                'workspace_id' => $workspaceId,
+                'data' => [
+                ],
+            ]
+        );
+    }
+
     protected function setUpHandlerResolver(): void
     {
-        $resolveMock = new class() extends HandlerResolver
+        $resolveMock = new class() extends ExecutorResolver
         {
             protected function getAllFiles(string $path): array
             {
@@ -81,11 +122,13 @@ class WinLocalEventBusTest extends TestCase
 
             protected function createClassName(SplFileInfo $file): string
             {
-                return 'WinLocal\\MessageBus\\Tests\\Data\\Handlers\\'.$file->getFilenameWithoutExtension();
+                $path = str_replace('/', '\\', Str::after($file->getPath(), '../'));
+
+                return 'WinLocal\\MessageBus\\Tests\\'.$path.'\\'.$file->getFilenameWithoutExtension();
             }
         };
 
-        $this->instance(HandlerResolverInterface::class, $resolveMock);
+        $this->instance(ExecutorResolverInterface::class, $resolveMock);
     }
 
     protected function mockAws(int $times = 1): History

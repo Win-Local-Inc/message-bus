@@ -8,4 +8,5 @@ enum Subject: string
     case AdvertUpdated = 'advert.updated';
     case AudienceCreated = 'audience.created';
     case AudienceUpdated = 'audience.updated';
+    case AudienceDeleted = 'audience.deleted';
 }
