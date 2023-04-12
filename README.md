@@ -4,6 +4,8 @@
 
 ### Installation
 
+- PHP 8.2 is required
+
 - remove `sqs-sns` from `config/queue.php`, it will be added by provider, or update it with 
 
 ```php
@@ -39,17 +41,17 @@ AWS_SNS_TOPIC=
 
 `There are two ways to implement handlers`
 1. Standard `Laravel Job` 
-    see -> WinLocal\MessageBus\Tests\Data\Handlers\AdvertCreated.php
+    see -> [WinLocal\MessageBus\Tests\Data\Handlers\AdvertCreated.php](https://github.com/Win-Local-Inc/message-bus/blob/main/tests/Data/Handlers/AdvertCreated.php)
 2. Interface `WinLocal\MessageBus\Contracts\ExecutorInterface` 
-    see -> WinLocal\MessageBus\Tests\Data\Handlers\AudienceCreated.php
+    see -> [WinLocal\MessageBus\Tests\Data\Handlers\AudienceCreated.php](https://github.com/Win-Local-Inc/message-bus/blob/main/tests/Data/Handlers/AudienceCreated.php)
 
-Attribute `WinLocal\MessageBus\Attributes\HandleSubjects` needs to be used, so resolver will use it.
+Attribute [WinLocal\MessageBus\Attributes\HandleSubjects](https://github.com/Win-Local-Inc/message-bus/blob/main/src/Attributes/HandleSubjects.php) needs to be used, so resolver will use it.
 
 - validators:
 
 There is optional validator available, that will be excecuted before handlers.
-Validator needs to extend `WinLocal\MessageBus\Contracts\AbstractExecutorValidator`
-    see -> WinLocal\MessageBus\Tests\Data\Validators\AudienceCreated.php
+Validator needs to extend [WinLocal\MessageBus\Contracts\AbstractExecutorValidator](https://github.com/Win-Local-Inc/message-bus/blob/main/src/Contracts/AbstractExecutorValidator.php)
+    see -> [WinLocal\MessageBus\Tests\Data\Validators\AudienceCreated.php](https://github.com/Win-Local-Inc/message-bus/blob/main/tests/Data/Validators/AudienceCreated.php)
 
 - push notification:
 
