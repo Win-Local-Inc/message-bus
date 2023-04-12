@@ -61,7 +61,7 @@ class SqsGetJob implements ShouldQueue
             if (array_key_exists(ShouldQueue::class, $interfaces) && array_key_exists(Dispatchable::class, $traits)) {
                 $class::dispatch($subject, $this->payload);
             } elseif (array_key_exists(ExecutorInterface::class, $interfaces)) {
-                SqsJobExecute::dispatch($class, $subject, $this->payload);
+                SqsExecuteJob::dispatch($class, $subject, $this->payload);
             } else {
                 throw new SqsJobInterfaceNotImplementedException($this->subject);
             }

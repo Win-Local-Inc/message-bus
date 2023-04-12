@@ -4,6 +4,7 @@ namespace WinLocal\MessageBus\Providers;
 
 use Aws\Sns\SnsClient;
 use WinLocal\MessageBus\Contracts\MessageClientInterface;
+use WinLocal\MessageBus\Enums\Subject;
 
 class MessageClient implements MessageClientInterface
 {
@@ -15,12 +16,12 @@ class MessageClient implements MessageClientInterface
         $this->sns = new SnsClient($this->config);
     }
 
-    public function publish(string $subject, array $message): void
+    public function publish(Subject $subject, array $message): void
     {
         $this->sns->publish([
             'TopicArn' => $this->config['topic'],
             'Message' => json_encode($message),
-            'Subject' => $subject,
+            'Subject' => $subject->value,
         ]);
     }
 

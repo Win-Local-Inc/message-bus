@@ -26,11 +26,11 @@ class SnsSendJob implements ShouldQueue
     public function handle(MessageClientInterface $messageClient)
     {
         try {
-            $messageClient->publish($this->subject->value, $this->message);
+            $messageClient->publish($this->subject, $this->message);
         } catch (Exception $exception) {
             Log::error('SnsSendJob '.$exception->getMessage(), [
                 'exception' => $exception,
-                'subject' => $this->subject,
+                'subject' => $this->subject->value,
                 'message' => $this->message,
             ]);
         }

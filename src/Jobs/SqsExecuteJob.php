@@ -11,7 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use WinLocal\MessageBus\Enums\Subject;
 
-class SqsJobExecute implements ShouldQueue
+class SqsExecuteJob implements ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;
@@ -31,9 +31,9 @@ class SqsJobExecute implements ShouldQueue
             $instance = resolve($this->class);
             $instance->execute($this->subject, $this->payload);
         } catch (Exception $exception) {
-            Log::error('SqsJobExecute '.$exception->getMessage(), [
+            Log::error('SqsExecuteJob '.$exception->getMessage(), [
                 'exception' => $exception,
-                'subject' => $this->subject,
+                'subject' => $this->subject->value,
                 'message' => $this->payload,
             ]);
         }
