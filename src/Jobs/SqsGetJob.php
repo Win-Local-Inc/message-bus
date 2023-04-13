@@ -43,7 +43,8 @@ class SqsGetJob implements ShouldQueue
 
         foreach ($classes as $class) {
             $parent = (new ReflectionClass($class))->getParentClass();
-            if ($parent->getName() === AbstractExecutorValidator::class) {
+            if ($parent instanceof ReflectionClass &&
+                $parent->getName() === AbstractExecutorValidator::class) {
                 $instance = resolve($class);
                 $instance->execute($subject, $this->payload);
             }
