@@ -19,7 +19,7 @@ use WinLocal\MessageBus\Jobs\SqsGetJob;
 use WinLocal\MessageBus\Providers\ExecutorResolver;
 use WinLocal\MessageBus\Tests\TestCase;
 
-class WinLocalEventBusTest extends TestCase
+class MessageBusTest extends TestCase
 {
     public function testAdvertCreateHandlerSuccess()
     {

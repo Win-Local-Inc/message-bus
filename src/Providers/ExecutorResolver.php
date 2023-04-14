@@ -20,12 +20,10 @@ class ExecutorResolver implements ExecutorResolverInterface
         $this->subject = $subject;
 
         return Collection::make($paths)
-            ->map(function (string $path) {
-                return Collection::make($this->getAllFiles($path))
+            ->map(fn (string $path) => Collection::make($this->getAllFiles($path))
                     ->filter(fn (SplFileInfo $file) => $file->getExtension() === 'php')
-                    ->map(fn (SplFileInfo $file) => $this->createClassName($file))
-                    ->filter(fn (string $absoluteClassName) => $this->classHandleSubject($absoluteClassName));
-            })
+                    ->map($this->createClassName(...))
+                    ->filter($this->classHandleSubject(...)))
             ->flatten()
             ->toArray();
     }
