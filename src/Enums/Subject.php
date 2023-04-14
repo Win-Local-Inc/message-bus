@@ -33,8 +33,11 @@ enum Subject: string
 
     case MbcSharecardCreated = 'mbc.sharecard.created';
     case MbcSharecardUpdated = 'mbc.sharecard.updated';
+    case MbcSharecardVisited = 'mbc.sharecard.visited';
 
     case ShortlinkCreated = 'shortlink.created';
+
+    case StatsTest = 'stats.test';
 
     case UserAttachedToWorkspace = 'auth.user.workspace.attached';
     case UserCreated = 'auth.user.created';
