@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use ReflectionClass;
 use WinLocal\MessageBus\Contracts\AbstractExecutorValidator;
@@ -28,19 +29,22 @@ class SqsGetJob implements ShouldQueue
 
     public function handle(ExecutorResolverInterface $resolver)
     {
-        if (! $this->subjectCanBeHandled($this->subject)) {
+        if (null === ($subject = Subject::tryFrom($this->subject))) {
             return Log::error('SqsGetJob subject not in enums : '.$this->subject, ['payload' => $this->payload]);
         }
 
-        $subject = Subject::from($this->subject);
         $this->validators($resolver, $subject);
         $this->handlers($resolver, $subject);
     }
 
-    protected function validators(ExecutorResolverInterface $resolver, Subject $subject)
+    protected function validators(ExecutorResolverInterface $resolver, Subject $subject): void
     {
-        $classes = $resolver->getExecutorsBySubject($subject, config('messagebus.validators'));
+        $validatorPaths = Config::get('messagebus.validators');
+        if (empty($validatorPaths)) {
+            return;
+        }
 
+        $classes = $resolver->getExecutorsBySubject($subject, $validatorPaths);
         foreach ($classes as $class) {
             if ($this->extendsAbstractExecutorValidator(new ReflectionClass($class))) {
                 $instance = resolve($class);
@@ -49,28 +53,23 @@ class SqsGetJob implements ShouldQueue
         }
     }
 
-    protected function handlers(ExecutorResolverInterface $resolver, Subject $subject)
+    protected function handlers(ExecutorResolverInterface $resolver, Subject $subject): void
     {
-        $classes = $resolver->getExecutorsBySubject($subject, config('messagebus.handlers'));
+        $handlerPaths = Config::get('messagebus.handlers');
+        if (empty($handlerPaths)) {
+            return;
+        }
 
+        $classes = $resolver->getExecutorsBySubject($subject, $handlerPaths);
         foreach ($classes as $class) {
             $reflector = new ReflectionClass($class);
-            if ($this->extendsAbstractExecutorValidator($reflector)) {
-                continue;
-            } elseif ($this->isLaravelJob($reflector)) {
-                $class::dispatch($subject, $this->payload);
-            } elseif ($this->implementsExecutorInterface($reflector)) {
-                SqsExecuteJob::dispatch($class, $subject, $this->payload);
-            } else {
-                throw new SqsJobInterfaceNotImplementedException($class.' - '.$this->subject);
-            }
+            match (true) {
+                $this->extendsAbstractExecutorValidator($reflector) => null,
+                $this->isLaravelJob($reflector) => $class::dispatch($subject, $this->payload),
+                $this->implementsExecutorInterface($reflector) => SqsExecuteJob::dispatch($class, $subject, $this->payload),
+                default => throw new SqsJobInterfaceNotImplementedException($class.' - '.$this->subject)
+            };
         }
-    }
-
-    protected function subjectCanBeHandled(string $subject): bool
-    {
-        return collect(Subject::cases())
-            ->contains(fn ($instance) => $instance->value === $subject);
     }
 
     protected function extendsAbstractExecutorValidator(ReflectionClass $reflector): bool
@@ -80,25 +79,23 @@ class SqsGetJob implements ShouldQueue
             if ($parent->getName() === AbstractExecutorValidator::class) {
                 return true;
             }
+            $parent = $parent->getParentClass();
         }
 
         return false;
     }
 
-    protected function isLaravelJob(ReflectionClass $reflector)
+    protected function isLaravelJob(ReflectionClass $reflector): bool
     {
-        $useDispachable = false;
         $parent = $reflector;
         do {
             if (array_key_exists(Dispatchable::class, $parent->getTraits())) {
-                $useDispachable = true;
-                break;
+                return array_key_exists(ShouldQueue::class, $reflector->getInterfaces());
             }
             $parent = $parent->getParentClass();
         } while ($parent);
 
-        return $useDispachable
-            && array_key_exists(ShouldQueue::class, $reflector->getInterfaces());
+        return false;
     }
 
     protected function implementsExecutorInterface(ReflectionClass $reflector): bool
