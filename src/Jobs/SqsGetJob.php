@@ -62,7 +62,7 @@ class SqsGetJob implements ShouldQueue
             } elseif ($this->implementsExecutorInterface($reflector)) {
                 SqsExecuteJob::dispatch($class, $subject, $this->payload);
             } else {
-                throw new SqsJobInterfaceNotImplementedException($this->subject);
+                throw new SqsJobInterfaceNotImplementedException($class.' - '.$this->subject);
             }
         }
     }
