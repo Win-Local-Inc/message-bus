@@ -42,9 +42,7 @@ class SqsGetJob implements ShouldQueue
         $classes = $resolver->getExecutorsBySubject($subject, config('messagebus.validators'));
 
         foreach ($classes as $class) {
-            $parent = (new ReflectionClass($class))->getParentClass();
-            if ($parent instanceof ReflectionClass &&
-                $parent->getName() === AbstractExecutorValidator::class) {
+            if ($this->extendsAbstractExecutorValidator(new ReflectionClass($class))) {
                 $instance = resolve($class);
                 $instance->execute($subject, $this->payload);
             }
@@ -57,11 +55,11 @@ class SqsGetJob implements ShouldQueue
 
         foreach ($classes as $class) {
             $reflector = new ReflectionClass($class);
-            $interfaces = $reflector->getInterfaces();
-            $traits = $reflector->getTraits();
-            if (array_key_exists(ShouldQueue::class, $interfaces) && array_key_exists(Dispatchable::class, $traits)) {
+            if ($this->extendsAbstractExecutorValidator($reflector)) {
+                continue;
+            } elseif ($this->isLaravelJob($reflector)) {
                 $class::dispatch($subject, $this->payload);
-            } elseif (array_key_exists(ExecutorInterface::class, $interfaces)) {
+            } elseif ($this->implementsExecutorInterface($reflector)) {
                 SqsExecuteJob::dispatch($class, $subject, $this->payload);
             } else {
                 throw new SqsJobInterfaceNotImplementedException($this->subject);
@@ -73,5 +71,38 @@ class SqsGetJob implements ShouldQueue
     {
         return collect(Subject::cases())
             ->contains(fn ($instance) => $instance->value === $subject);
+    }
+
+    protected function extendsAbstractExecutorValidator(ReflectionClass $reflector): bool
+    {
+        $parent = $reflector->getParentClass();
+        while ($parent) {
+            if ($parent->getName() === AbstractExecutorValidator::class) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    protected function isLaravelJob(ReflectionClass $reflector)
+    {
+        $useDispachable = false;
+        $parent = $reflector;
+        do {
+            if (array_key_exists(Dispatchable::class, $parent->getTraits())) {
+                $useDispachable = true;
+                break;
+            }
+            $parent = $parent->getParentClass();
+        } while ($parent);
+
+        return $useDispachable
+            && array_key_exists(ShouldQueue::class, $reflector->getInterfaces());
+    }
+
+    protected function implementsExecutorInterface(ReflectionClass $reflector): bool
+    {
+        return array_key_exists(ExecutorInterface::class, $reflector->getInterfaces());
     }
 }
