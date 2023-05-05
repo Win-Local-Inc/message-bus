@@ -41,12 +41,16 @@ enum Subject: string
 
     case UserAttachedToWorkspace = 'auth.user.workspace.attached';
     case UserCreated = 'auth.user.created';
+    case UserPasswordForgotten = 'user.password.forgotten';
     case UserUpdated = 'auth.user.updated';
     case UserSetPassword = 'user.set.password';
     case UserStatusDeactivated = 'user.status.deactivated';
     case UserStatusActivated = 'user.status.activated';
+    case UserWorkspaceInvited = 'user.workspace.invited';
     case UserWorkspaceMoved = 'user.workspace.moved';
 
+    case WorkspaceEngagePlusCreated = 'workspace.engageplus.created';
+    case WorkspaceFranchiseCreated = 'workspace.franchise.created';
     case WorkspaceStatusActivated = 'workspace.status.activated';
     case WorkspaceStatusDeactivated = 'workspace.status.deactivated';
     case WorkspaceSubscriptionUpdated = 'workspace.subscription.updated';
