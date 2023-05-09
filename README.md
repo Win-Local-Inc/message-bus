@@ -4,7 +4,7 @@
 
 ### Installation
 
-- PHP 8.2 is required
+- PHP 8.1 is required
 
 - remove `sqs-sns` from `config/queue.php`, it will be added by provider, or update it with 
 
