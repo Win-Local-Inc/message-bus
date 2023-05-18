@@ -32,6 +32,8 @@ enum Subject: string
     case FacebookAdvertInsightsReceived = 'advert.facebook.insights.received';
 
     case MbcSharecardCreated = 'mbc.sharecard.created';
+    case MbcSharecardShared = 'mbc.sharecard.shared';
+    case MbcSharecardShareOwnerNotified = 'mbc.sharcard.share.owner.notified';
     case MbcSharecardUpdated = 'mbc.sharecard.updated';
     case MbcSharecardVisited = 'mbc.sharecard.visited';
 
@@ -53,7 +55,8 @@ enum Subject: string
     case WorkspaceFranchiseCreated = 'workspace.franchise.created';
     case WorkspaceStatusActivated = 'workspace.status.activated';
     case WorkspaceStatusDeactivated = 'workspace.status.deactivated';
-    case WorkspaceSubscriptionUpdated = 'workspace.subscription.updated';
-    case WorkspaceSubscriptionCreated = 'workspace.subscription.created';
     case WorkspaceSubscriptionEnded = 'workspace.subscription.ended';
+    case WorkspaceSubscriptionExpiringNotified = 'workspace.subscription.expiring.notified';
+    case WorkspaceSubscriptionCreated = 'workspace.subscription.created';
+    case WorkspaceSubscriptionUpdated = 'workspace.subscription.updated';
 }
