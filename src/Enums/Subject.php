@@ -8,6 +8,7 @@ enum Subject: string
     case AdvertUpdated = 'advert.updated';
     case AudienceCreated = 'audience.created';
     case AudienceDeleted = 'audience.deleted';
+    case AudienceShared = 'audience.shared';
     case AudienceUpdated = 'audience.updated';
 
     case CampaignKeywordChanged = 'campaign.keyword.changed';
@@ -38,6 +39,7 @@ enum Subject: string
     case MbcSharecardVisited = 'mbc.sharecard.visited';
 
     case ShortlinkCreated = 'shortlink.created';
+    case ShortlinkEnteredUnique = 'shortlink.entered.unique';
 
     case StatsTest = 'stats.test';
 
