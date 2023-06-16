@@ -38,6 +38,9 @@ enum Subject: string
     case MbcSharecardUpdated = 'mbc.sharecard.updated';
     case MbcSharecardVisited = 'mbc.sharecard.visited';
 
+    case MediaShared = 'media.shared';
+    case MediaCatalogShared = 'media.catalog.shared';
+
     case ShortlinkCreated = 'shortlink.created';
     case ShortlinkEnteredUnique = 'shortlink.entered.unique';
 
@@ -45,6 +48,8 @@ enum Subject: string
 
     case UserAttachedToWorkspace = 'auth.user.workspace.attached';
     case UserCreated = 'auth.user.created';
+    case UserGroupAttached = 'group.user.attached';
+    case UserGroupDetached = 'group.user.detached';
     case UserPasswordForgotten = 'user.password.forgotten';
     case UserUpdated = 'auth.user.updated';
     case UserSetPassword = 'user.set.password';
@@ -53,6 +58,8 @@ enum Subject: string
     case UserWorkspaceInvited = 'user.workspace.invited';
     case UserWorkspaceMoved = 'user.workspace.moved';
 
+    case WorkspaceCreated = 'auth.workspace.created';
+    case WorkspaceUpdated = 'auth.workspace.updated';
     case WorkspaceEngagePlusCreated = 'workspace.engageplus.created';
     case WorkspaceFranchiseCreated = 'workspace.franchise.created';
     case WorkspaceStatusActivated = 'workspace.status.activated';
