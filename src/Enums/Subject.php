@@ -27,6 +27,7 @@ enum Subject: string
     case DeviceUsed = 'device.used';
 
     case FacebookAudienceCreated = 'audience.facebook.created';
+    case FacebookAudienceUpdated = 'audience.facebook.updated';
     case FacebookAudienceDeleted = 'audience.facebook.deleted';
     case FacebookAdvertCreated = 'advert.facebook.created';
     case FacebookAdvertUpdated = 'advert.facebook.updated';
