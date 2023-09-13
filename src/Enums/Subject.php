@@ -22,6 +22,8 @@ enum Subject: string
     case ContactCreated = 'contact.contact.created';
     case ContactUpdated = 'contact.contact.updated';
 
+    case CreditCardExpiring = 'credit-card.expiring';
+
     case DevicesCreated = 'devices.created';
     case DevicesOrderPaid = 'devices.order.paid';
     case DeviceUsed = 'device.used';
@@ -48,6 +50,8 @@ enum Subject: string
     case MbcSharecardVisited = 'mbc.sharecard.visited';
     case MbcSharecardTemplateUnsharedFromUser = 'mbc.sharecard.template.unshared_from_user';
     case MbcSharecardTemplateSharedToUser = 'mbc.sharecard.template.shared_to_user';
+    case MbcSharecardConnectOwnerNotified = 'mbc.sharecard.connected';
+    case MbcSharecardConnected = 'mbc.sharecard.connect.owner.notified';
 
     case MediaShared = 'media.shared';
     case MediaCatalogShared = 'media.catalog.shared';
@@ -88,5 +92,4 @@ enum Subject: string
     case WorkspaceSubscriptionUpdated = 'workspace.subscription.updated';
     case WorkspaceSubscriptionRenewalFailed = 'workspace.subscription.failed';
     case WorkspaceSubscriptionRenewalSucceeded = 'workspace.subscription.succeeded';
-
 }
