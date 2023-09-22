@@ -69,6 +69,7 @@ enum Subject: string
 
     case UserAttachedToWorkspace = 'auth.user.workspace.attached';
     case UserCreated = 'auth.user.created';
+    case UserFromDeviceOnboarded = 'user.device.onboarded';
     case UserGroupAttached = 'group.user.attached';
     case UserGroupDetached = 'group.user.detached';
     case UserPasswordForgotten = 'user.password.forgotten';
