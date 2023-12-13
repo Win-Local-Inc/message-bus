@@ -52,6 +52,10 @@ enum Subject: string
     case MbcSharecardTemplateSharedToUser = 'mbc.sharecard.template.shared_to_user';
     case MbcSharecardConnectOwnerNotified = 'mbc.sharecard.connected';
     case MbcSharecardConnected = 'mbc.sharecard.connect.owner.notified';
+    case MbcSharecardMyNetworkUserAttached = 'mbc.sharecard.mynetwork.user.attached';
+    case MbcSharecardMyNetworkUserActivated = 'mbc.sharecard.mynetwork.user.activated';
+    case MbcSharecardMyNetworkUserUnarchived = 'mbc.sharecard.mynetwork.user.unarchived';
+    case MbcSharecardMyNetworkUserWithdrawn = 'mbc.sharecard.mynetwork.user.withdrawn';
 
     case MediaShared = 'media.shared';
     case MediaCatalogShared = 'media.catalog.shared';
@@ -80,6 +84,8 @@ enum Subject: string
     case UserWorkspaceInvited = 'user.workspace.invited';
     case UserWorkspaceMoved = 'user.workspace.moved';
     case UserOnboarded = 'user.onboarded';
+    case UserToMyNetworkInvited = 'user.mynetwork.invited';
+    case UserToMyNetworkInvitationReminded = 'user.mynetwork.invitation.reminded';
 
     case WorkspaceCreated = 'auth.workspace.created';
     case WorkspaceUpdated = 'auth.workspace.updated';
