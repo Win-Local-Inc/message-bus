@@ -24,6 +24,8 @@ enum Subject: string
 
     case CreditCardExpiring = 'credit-card.expiring';
 
+    case DeferredPaymantFailed = 'campaign.deferred.payment.failed';
+
     case DevicesCreated = 'devices.created';
     case DevicesOrderPaid = 'devices.order.paid';
     case DeviceUsed = 'device.used';
