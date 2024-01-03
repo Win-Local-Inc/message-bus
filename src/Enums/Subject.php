@@ -101,4 +101,7 @@ enum Subject: string
     case WorkspaceSubscriptionUpdated = 'workspace.subscription.updated';
     case WorkspaceSubscriptionRenewalFailed = 'workspace.subscription.failed';
     case WorkspaceSubscriptionRenewalSucceeded = 'workspace.subscription.succeeded';
+    case WorkspaceSubscriptionEndedNonPayment = 'workspace.subscription.ended.non.payment';
+    case WorkspaceSubscriptionEndedContractTerminated = 'workspace.subscription.ended.contract.terminated';
+
 }
