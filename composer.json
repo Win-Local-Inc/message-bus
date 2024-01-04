@@ -36,6 +36,10 @@
     "scripts": {
         "post-autoload-dump": [
             "@php vendor/bin/testbench package:discover --ansi"
+        ],
+        "test": "vendor/bin/testbench package:test --configuration=tests/phpunit.xml",
+        "lint": [
+            "@php vendor/bin/pint"
         ]
     },
     "prefer-stable": true,

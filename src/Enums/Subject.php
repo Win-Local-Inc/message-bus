@@ -86,7 +86,7 @@ enum Subject: string
     case UserWorkspaceInvited = 'user.workspace.invited';
     case UserWorkspaceMoved = 'user.workspace.moved';
     case UserOnboarded = 'user.onboarded';
-    case UserToMyNetworkInvited = 'user.mynetwork.invited';
+    case UserToMyNetworkInvited = 'auth.user.mynetwork.invited';
     case UserToMyNetworkInvitationReminded = 'user.mynetwork.invitation.reminded';
 
     case WorkspaceCreated = 'auth.workspace.created';
