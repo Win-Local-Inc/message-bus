@@ -4,6 +4,15 @@ namespace WinLocal\MessageBus\Enums;
 
 enum Subject: string
 {
+    case CardCreated = 'card.created';
+    case CardPublishStart = 'card.publish.start';
+    case CardPublishEnd = 'card.publish.end';
+    case CardPublishMyNetworkStart = 'card.publish.my_network.start';
+    case CardPublishMyNetworkEnd = 'card.publish.my_network.end';
+    case TemplateCreated = 'template.created';
+    case TemplateUpdated = 'template.updated';
+
+    
     case AdvertCreated = 'advert.created';
     case AdvertUpdated = 'advert.updated';
     case AudienceCreated = 'audience.created';
