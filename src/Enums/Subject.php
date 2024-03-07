@@ -12,7 +12,6 @@ enum Subject: string
     case TemplateCreated = 'template.created';
     case TemplateUpdated = 'template.updated';
 
-    
     case AdvertCreated = 'advert.created';
     case AdvertUpdated = 'advert.updated';
     case AudienceCreated = 'audience.created';
@@ -72,6 +71,8 @@ enum Subject: string
     case MediaShared = 'media.shared';
     case MediaCatalogShared = 'media.catalog.shared';
 
+    case PaymentSucceeded = 'payment.succeeded';
+
     case PlayerAttachedToLeaderBoard = 'leaderboard.player.attached_to_leaderboard';
     case PlayerDetachedFromLeaderBoard = 'leaderboard.player.detached_from_leaderboard';
 
@@ -98,6 +99,7 @@ enum Subject: string
     case UserOnboarded = 'user.onboarded';
     case UserToMyNetworkInvited = 'auth.user.mynetwork.invited';
     case UserToMyNetworkInvitationReminded = 'user.mynetwork.invitation.reminded';
+    case UserSignedUp = 'user.signed.up';
 
     case WalletTopUp = 'wallet.top.up';
 
@@ -116,5 +118,5 @@ enum Subject: string
     case WorkspaceSubscriptionEndedNonPayment = 'workspace.subscription.ended.non.payment';
     case WorkspaceSubscriptionEndedContractTerminated = 'workspace.subscription.ended.contract.terminated';
     case WorkspaceSubscriptionRenewalReminded = 'workspace.subscription.renewal.reminded';
-
+    case WorkspaceSubscriptionOrdered = 'workspace.subscription.ordered';
 }
