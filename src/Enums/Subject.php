@@ -119,4 +119,5 @@ enum Subject: string
     case WorkspaceSubscriptionEndedContractTerminated = 'workspace.subscription.ended.contract.terminated';
     case WorkspaceSubscriptionRenewalReminded = 'workspace.subscription.renewal.reminded';
     case WorkspaceSubscriptionOrdered = 'workspace.subscription.ordered';
+    case WorkspaceSubscriptionCancellationOrdered = 'workspace.subscription.cancellation.ordered';
 }
