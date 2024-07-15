@@ -2,7 +2,9 @@
 
 namespace WinLocal\MessageBus\Enums;
 
-enum Subject: string
+use WinLocal\MessageBus\Contracts\SubjectEnum;
+
+enum WinlocalSubject: string implements SubjectEnum
 {
     case CardCreated = 'card.created';
     case CardPublishStart = 'card.publish.start';

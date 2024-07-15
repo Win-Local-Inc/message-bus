@@ -2,9 +2,7 @@
 
 namespace WinLocal\MessageBus\Contracts;
 
-use WinLocal\MessageBus\Enums\Subject;
-
 interface MessageClientInterface
 {
-    public function publish(Subject $subject, array $message): void;
+    public function publish(SubjectEnum $subject, array $message): void;
 }

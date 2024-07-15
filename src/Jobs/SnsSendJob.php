@@ -8,7 +8,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use WinLocal\MessageBus\Contracts\MessageClientInterface;
-use WinLocal\MessageBus\Enums\Subject;
+use WinLocal\MessageBus\Contracts\SubjectEnum;
 
 class SnsSendJob implements ShouldQueue
 {
@@ -17,7 +17,7 @@ class SnsSendJob implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public function __construct(protected Subject $subject, protected array $message)
+    public function __construct(protected SubjectEnum $subject, protected array $message)
     {
     }
 

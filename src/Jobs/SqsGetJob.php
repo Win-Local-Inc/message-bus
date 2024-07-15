@@ -13,7 +13,7 @@ use ReflectionClass;
 use WinLocal\MessageBus\Contracts\AbstractExecutorValidator;
 use WinLocal\MessageBus\Contracts\ExecutorInterface;
 use WinLocal\MessageBus\Contracts\ExecutorResolverInterface;
-use WinLocal\MessageBus\Enums\Subject;
+use WinLocal\MessageBus\Contracts\SubjectEnum;
 use WinLocal\MessageBus\Exceptions\SqsJobInterfaceNotImplementedException;
 
 class SqsGetJob implements ShouldQueue
@@ -29,15 +29,15 @@ class SqsGetJob implements ShouldQueue
 
     public function handle(ExecutorResolverInterface $resolver)
     {
-        if (null === ($subject = Subject::tryFrom($this->subject))) {
-            return Log::error('SqsGetJob subject not in enums : '.$this->subject, ['payload' => $this->payload]);
+        if (null === ($subject = config('messagebus.subject_enum')::tryFrom($this->subject))) {
+            return Log::error('SqsGetJob subject not in enums : '.config('messagebus.subject_enum').'::'.$this->subject, ['payload' => $this->payload]);
         }
 
         $this->validators($resolver, $subject);
         $this->handlers($resolver, $subject);
     }
 
-    protected function validators(ExecutorResolverInterface $resolver, Subject $subject): void
+    protected function validators(ExecutorResolverInterface $resolver, SubjectEnum $subject): void
     {
         $validatorPaths = Config::get('messagebus.validators');
         if (empty($validatorPaths)) {
@@ -53,7 +53,7 @@ class SqsGetJob implements ShouldQueue
         }
     }
 
-    protected function handlers(ExecutorResolverInterface $resolver, Subject $subject): void
+    protected function handlers(ExecutorResolverInterface $resolver, SubjectEnum $subject): void
     {
         $handlerPaths = Config::get('messagebus.handlers');
         if (empty($handlerPaths)) {

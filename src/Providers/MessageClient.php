@@ -4,7 +4,7 @@ namespace WinLocal\MessageBus\Providers;
 
 use Aws\Sns\SnsClient;
 use WinLocal\MessageBus\Contracts\MessageClientInterface;
-use WinLocal\MessageBus\Enums\Subject;
+use WinLocal\MessageBus\Contracts\SubjectEnum;
 
 class MessageClient implements MessageClientInterface
 {
@@ -16,7 +16,7 @@ class MessageClient implements MessageClientInterface
         $this->sns = new SnsClient($this->config);
     }
 
-    public function publish(Subject $subject, array $message): void
+    public function publish(SubjectEnum $subject, array $message): void
     {
         $this->sns->publish([
             'TopicArn' => $this->config['topic'],

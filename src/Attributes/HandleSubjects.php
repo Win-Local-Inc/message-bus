@@ -3,13 +3,15 @@
 namespace WinLocal\MessageBus\Attributes;
 
 use Attribute;
-use WinLocal\MessageBus\Enums\Subject;
+use WinLocal\MessageBus\Contracts\SubjectEnum;
 
 #[Attribute(Attribute::TARGET_CLASS)]
 class HandleSubjects
 {
-    public function __construct(
-        public Subject ...$subjects
-    ) {
+    public array $subjects;
+
+    public function __construct(SubjectEnum ...$subjects)
+    {
+        $this->subjects = $subjects;
     }
 }

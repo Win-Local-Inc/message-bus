@@ -8,10 +8,10 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use WinLocal\MessageBus\Attributes\HandleSubjects;
-use WinLocal\MessageBus\Enums\Subject;
+use WinLocal\MessageBus\Enums\WinlocalSubject;
 use WinLocal\MessageBus\Jobs\SnsSendJob;
 
-#[HandleSubjects(Subject::AdvertCreated, Subject::AdvertUpdated)]
+#[HandleSubjects(WinlocalSubject::AdvertCreated, WinlocalSubject::AdvertUpdated)]
 class AdvertCreated implements ShouldQueue
 {
     use Dispatchable;
@@ -19,13 +19,13 @@ class AdvertCreated implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public function __construct(protected Subject $subject, protected array $payload)
+    public function __construct(protected WinlocalSubject $subject, protected array $payload)
     {
     }
 
     public function handle()
     {
-        SnsSendJob::dispatch(Subject::AdvertCreated, [
+        SnsSendJob::dispatch(WinlocalSubject::AdvertCreated, [
             'context' => $this->payload['context'],
             'context_id' => $this->payload['context_id'],
             'user_id' => $this->payload['user_id'],

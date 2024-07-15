@@ -3,12 +3,11 @@
 namespace WinLocal\MessageBus\Contracts;
 
 use Illuminate\Support\Facades\Validator;
-use WinLocal\MessageBus\Enums\Subject;
 use WinLocal\MessageBus\Exceptions\ExecutorValidatorException;
 
 abstract class AbstractExecutorValidator implements ExecutorInterface
 {
-    public function execute(Subject $subject, array $payload): void
+    public function execute(SubjectEnum $subject, array $payload): void
     {
         $this->validatePayload($payload);
     }

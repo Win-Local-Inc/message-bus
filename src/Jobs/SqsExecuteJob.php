@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use WinLocal\MessageBus\Enums\Subject;
+use WinLocal\MessageBus\Contracts\SubjectEnum;
 
 class SqsExecuteJob implements ShouldQueue
 {
@@ -18,7 +18,7 @@ class SqsExecuteJob implements ShouldQueue
 
     public function __construct(
         protected string $class,
-        protected Subject $subject,
+        protected SubjectEnum $subject,
         protected array $payload
     ) {
     }

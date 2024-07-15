@@ -4,9 +4,9 @@ namespace WinLocal\MessageBus\Tests\Data\Validators;
 
 use WinLocal\MessageBus\Attributes\HandleSubjects;
 use WinLocal\MessageBus\Contracts\AbstractExecutorValidator;
-use WinLocal\MessageBus\Enums\Subject;
+use WinLocal\MessageBus\Enums\WinlocalSubject;
 
-#[HandleSubjects(Subject::AdvertCreated, Subject::AudienceUpdated)]
+#[HandleSubjects(WinlocalSubject::AdvertCreated, WinlocalSubject::AudienceUpdated)]
 class AudienceCreated extends AbstractExecutorValidator
 {
     protected function getRules(array $payload): array

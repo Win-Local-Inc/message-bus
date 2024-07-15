@@ -9,13 +9,13 @@ use ReflectionClass;
 use Symfony\Component\Finder\SplFileInfo;
 use WinLocal\MessageBus\Attributes\HandleSubjects;
 use WinLocal\MessageBus\Contracts\ExecutorResolverInterface;
-use WinLocal\MessageBus\Enums\Subject;
+use WinLocal\MessageBus\Contracts\SubjectEnum;
 
 class ExecutorResolver implements ExecutorResolverInterface
 {
-    protected ?Subject $subject = null;
+    protected ?SubjectEnum $subject = null;
 
-    public function getExecutorsBySubject(Subject $subject, array $paths): array
+    public function getExecutorsBySubject(SubjectEnum $subject, array $paths): array
     {
         $this->subject = $subject;
 

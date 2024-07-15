@@ -12,7 +12,7 @@ use Ramsey\Uuid\Uuid;
 use Symfony\Component\Finder\SplFileInfo;
 use WinLocal\MessageBus\Contracts\ExecutorResolverInterface;
 use WinLocal\MessageBus\Contracts\MessageClientInterface;
-use WinLocal\MessageBus\Enums\Subject;
+use WinLocal\MessageBus\Enums\WinlocalSubject;
 use WinLocal\MessageBus\Exceptions\ExecutorValidatorException;
 use WinLocal\MessageBus\Exceptions\SqsJobInterfaceNotImplementedException;
 use WinLocal\MessageBus\Jobs\SqsGetJob;
@@ -28,7 +28,7 @@ class MessageBusTest extends TestCase
         $userId = Uuid::uuid4()->toString();
         $workspaceId = Uuid::uuid4()->toString();
         SqsGetJob::dispatch(
-            Subject::AdvertCreated->value,
+            WinlocalSubject::AdvertCreated->value,
             [
                 'context_id' => $userId,
                 'context' => ['type' => 'Advert'],
@@ -43,7 +43,7 @@ class MessageBusTest extends TestCase
 
         $data = $history->getLastCommand()->toArray();
         $message = json_decode($data['Message']);
-        $this->assertEquals(Subject::AdvertCreated->value, $data['Subject']);
+        $this->assertEquals(WinlocalSubject::AdvertCreated->value, $data['Subject']);
         $this->assertEquals($message->data->workspace_id, $workspaceId);
     }
 
@@ -54,7 +54,7 @@ class MessageBusTest extends TestCase
         $userId = Uuid::uuid4()->toString();
         $workspaceId = Uuid::uuid4()->toString();
         SqsGetJob::dispatch(
-            Subject::AudienceCreated->value,
+            WinlocalSubject::AudienceCreated->value,
             [
                 'context_id' => $userId,
                 'context' => ['type' => 'Advert'],
@@ -69,7 +69,7 @@ class MessageBusTest extends TestCase
 
         $data = $history->getLastCommand()->toArray();
         $message = json_decode($data['Message']);
-        $this->assertEquals(Subject::AudienceCreated->value, $data['Subject']);
+        $this->assertEquals(WinlocalSubject::AudienceCreated->value, $data['Subject']);
         $this->assertEquals($message->data->workspace_id, $workspaceId);
     }
 
@@ -80,7 +80,7 @@ class MessageBusTest extends TestCase
         $userId = Uuid::uuid4()->toString();
         $workspaceId = Uuid::uuid4()->toString();
         SqsGetJob::dispatch(
-            Subject::AdvertCreated->value,
+            WinlocalSubject::AdvertCreated->value,
             [
                 'context_id' => $userId,
                 'context' => ['type' => 'Advert'],
@@ -99,7 +99,7 @@ class MessageBusTest extends TestCase
         $userId = Uuid::uuid4()->toString();
         $workspaceId = Uuid::uuid4()->toString();
         SqsGetJob::dispatch(
-            Subject::AudienceDeleted->value,
+            WinlocalSubject::AudienceDeleted->value,
             [
                 'context_id' => $userId,
                 'context' => ['type' => 'Advert'],
