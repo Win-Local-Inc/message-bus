@@ -6,7 +6,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
 use WinLocal\MessageBus\Contracts\ExecutorResolverInterface;
 use WinLocal\MessageBus\Contracts\MessageClientInterface;
-use WinLocal\MessageBus\Contracts\SubjectEnum;
 use WinLocal\MessageBus\Providers\ExecutorResolver;
 use WinLocal\MessageBus\Providers\MessageClient;
 use WinLocal\MessageBus\Queue\Connectors\SqsSnsConnector;
