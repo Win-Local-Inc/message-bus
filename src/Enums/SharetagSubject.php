@@ -11,4 +11,8 @@ enum SharetagSubject: string implements SubjectEnum
     case ORDER_CREATED = 'order.created';
 
     case LambdaMediaCreated = 'lambda.media.created';
+
+    case ACCOUNT_CREATED = 'account.created';
+
+    case ACCOUNT_UPDATED = 'account.updated';
 }
