@@ -22,6 +22,8 @@ enum WinlocalSubject: string implements SubjectEnum
     case AudienceUpdated = 'audience.updated';
 
     case CampaignKeywordChanged = 'campaign.keyword.changed';
+    case CampaignSharecardCreated = 'campaign.sharecard.created';
+    case CampaignEnded = 'campaign.ended';
     case CampaignSmsBrandedSmsReceived = 'campaign.sms.branded.sms.received';
     case CampaignSmsSharecardSmsReceived = 'campaign.sms.sharecard.sms.received';
     case CampaignSocialStandardLeadReceived = 'campaign.social.standard.lead.received';
@@ -56,6 +58,7 @@ enum WinlocalSubject: string implements SubjectEnum
     case FacebookCampaignFailed = 'campaigns.facebook.failed';
 
     case MbcSharecardCreated = 'mbc.sharecard.created';
+    case MbcSharecardActivate = 'mbc.sharecard.activate';
     case MbcSharecardShared = 'mbc.sharecard.shared';
     case MbcSharecardShareOwnerNotified = 'mbc.sharcard.share.owner.notified';
     case MbcSharecardUpdated = 'mbc.sharecard.updated';
