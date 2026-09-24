@@ -12,11 +12,14 @@ use Ramsey\Uuid\Uuid;
 use Symfony\Component\Finder\SplFileInfo;
 use WinLocal\MessageBus\Contracts\ExecutorResolverInterface;
 use WinLocal\MessageBus\Contracts\MessageClientInterface;
+use WinLocal\MessageBus\Enums\AWSSubject;
+use WinLocal\MessageBus\Enums\SharetagSubject;
 use WinLocal\MessageBus\Enums\WinlocalSubject;
 use WinLocal\MessageBus\Exceptions\ExecutorValidatorException;
 use WinLocal\MessageBus\Exceptions\SqsJobInterfaceNotImplementedException;
 use WinLocal\MessageBus\Jobs\SqsGetJob;
 use WinLocal\MessageBus\Providers\ExecutorResolver;
+use WinLocal\MessageBus\Tests\Data\Handlers\RekognitionFaceDetection;
 use WinLocal\MessageBus\Tests\TestCase;
 
 class MessageBusTest extends TestCase
@@ -90,6 +93,29 @@ class MessageBusTest extends TestCase
                 ],
             ]
         );
+    }
+
+    public function testJobTagBeforeColonRoutesToHandler(): void
+    {
+        config(['messagebus.subject_enum' => [
+            WinlocalSubject::class,
+            SharetagSubject::class,
+            AWSSubject::class,
+        ]]);
+        $this->setUpHandlerResolver();
+        RekognitionFaceDetection::$handledSubject = null;
+        RekognitionFaceDetection::$handledPayload = null;
+
+        $payload = [
+            'API' => 'StartFaceDetection',
+            'JobTag' => 'lambda.rekognition.face-detection:42',
+            'Status' => 'SUCCEEDED',
+        ];
+
+        SqsGetJob::dispatch('', $payload);
+
+        $this->assertSame(AWSSubject::LambdaRekognitionFaceDetection, RekognitionFaceDetection::$handledSubject);
+        $this->assertSame($payload, RekognitionFaceDetection::$handledPayload);
     }
 
     public function testInterfaceNotImplementedError()

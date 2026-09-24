@@ -15,6 +15,7 @@ use WinLocal\MessageBus\Contracts\ExecutorInterface;
 use WinLocal\MessageBus\Contracts\ExecutorResolverInterface;
 use WinLocal\MessageBus\Contracts\SubjectEnum;
 use WinLocal\MessageBus\Exceptions\SqsJobInterfaceNotImplementedException;
+use WinLocal\MessageBus\Support\SubjectResolver;
 
 class SqsGetJob implements ShouldQueue
 {
@@ -29,8 +30,8 @@ class SqsGetJob implements ShouldQueue
 
     public function handle(ExecutorResolverInterface $resolver)
     {
-        if (null === ($subject = config('messagebus.subject_enum')::tryFrom($this->subject))) {
-            return Log::error('SqsGetJob subject not in enums : '.config('messagebus.subject_enum').'::'.$this->subject, ['payload' => $this->payload]);
+        if (null === ($subject = SubjectResolver::tryFrom($this->subject, $this->payload))) {
+            return Log::error('SqsGetJob subject not in enums : '.implode(', ', SubjectResolver::enumClasses()).'::'.$this->subject, ['payload' => $this->payload]);
         }
 
         $this->validators($resolver, $subject);
